@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Detail - EasyRecipe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🍳</div>
+          <span class="logo-text">EasyRecipe</span>
+        </a>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all-recipes.html">Recipes</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <a href="index.html" class="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Back to Recipes
+    </a>
+
+    <div id="recipeContent"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <div class="logo-icon">🍳</div>
+            <span class="logo-text">EasyRecipe</span>
+          </div>
+          <p style="color: #9ca3af; margin-top: 1rem; font-size: 0.875rem;">
+            Discover delicious recipes and cooking inspiration for every occasion.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all-recipes.html">All Recipes</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Categories</h3>
+          <ul>
+            <li><a href="all-recipes.html?category=Breakfast">Breakfast</a></li>
+            <li><a href="all-recipes.html?category=Lunch">Lunch</a></li>
+            <li><a href="all-recipes.html?category=Dinner">Dinner</a></li>
+            <li><a href="all-recipes.html?category=Dessert">Dessert</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p style="color: #9ca3af; margin-bottom: 0.5rem;">
+            📞 +1-388-373-8447
+          </p>
+          <p style="color: #9ca3af;">
+            ✉️ <a href="mailto:tips@easyrecipe.in">tips@easyrecipe.in</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 EasyRecipe. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="terms.html">Terms & Conditions</a>
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="recipes-data.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const recipeId = getUrlParameter('id');
+      const recipe = getRecipeById(recipeId);
+      const container = document.getElementById('recipeContent');
+
+      if (recipe) {
+        const difficultyClass = `badge-${recipe.difficulty.toLowerCase()}`;
+        
+        container.innerHTML = `
+          <div class="recipe-detail">
+            <div class="recipe-detail-header">
+              <img src="${recipe.image}" alt="${recipe.title}" class="recipe-detail-image">
+              <div class="recipe-detail-overlay">
+                <h1 class="recipe-detail-title">${recipe.title}</h1>
+                <div class="recipe-detail-meta">
+                  <span>⏱️ Prep: ${recipe.prepTime}</span>
+                  <span>🍳 Cook: ${recipe.cookTime}</span>
+                  <span>👥 Servings: ${recipe.servings}</span>
+                  <span class="recipe-card-badge ${difficultyClass}">${recipe.difficulty}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="recipe-detail-content">
+              <p class="recipe-detail-description">${recipe.description}</p>
+              
+              <div class="recipe-section">
+                <h3>📋 Ingredients</h3>
+                <ul>
+                  ${recipe.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+                </ul>
+              </div>
+              
+              <div class="recipe-section">
+                <h3>👨‍🍳 Instructions</h3>
+                <ol>
+                  ${recipe.instructions.map(inst => `<li>${inst}</li>`).join('')}
+                </ol>
+              </div>
+              
+              <div class="recipe-section">
+                <h3>🏷️ Category</h3>
+                <p style="color: #4b5563;">${recipe.category}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.title = `${recipe.title} - EasyRecipe`;
+      } else {
+        container.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 4rem 0;">Recipe not found.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
